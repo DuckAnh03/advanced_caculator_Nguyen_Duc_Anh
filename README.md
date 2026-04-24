@@ -78,26 +78,19 @@ Cho các lập trình viên và những người làm việc với số nhị ph
 > **Ghi chú**: Vui lòng thêm ảnh chụp màn hình cho các tính năng sau:
 
 ### Chế Độ Cơ Bản
-```
-(screenshots/basic_mode.png)
-```
+![Chế độ Cơ Bản](screenshots/basic_mode.png)
 
 ### Chế Độ Khoa Học
-```
-(screenshots/scientific_mode.png)
-```
+![Chế độ Khoa Học](screenshots/scientific_mode.png)
 
 ### Chế Độ Lập Trình
-```
-(screenshots/programmer_mode.png)
-```
+![Chế độ Lập Trình](screenshots/programmer_mode.png)
 
-### Lịch Sử & Cài Đặt
-```
-(screenshots/history.png)
-(screenshots/setting.png)
-```
+### Lịch Sử
+![Lịch Sử](screenshots/history.png)
 
+### Cài Đặt
+![Cài Đặt](screenshots/setting.png)
 ---
 
 ## Kiến Trúc Ứng Dụng
