@@ -274,7 +274,11 @@ class _SwitchRow extends StatelessWidget {
     return ListTile(
       leading: Icon(icon, color: subColor, size: 22),
       title: Text(label, style: TextStyle(color: textColor, fontSize: 15)),
-      trailing: Switch(value: value, onChanged: onChanged, activeColor: accent),
+      trailing: Switch(
+        value: value,
+        onChanged: onChanged,
+        activeThumbColor: accent,
+      ),
     );
   }
 }

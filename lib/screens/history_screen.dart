@@ -91,7 +91,7 @@ class HistoryScreen extends StatelessWidget {
                 vertical: 8,
               ),
               itemCount: history.count,
-              separatorBuilder: (_, __) =>
+              separatorBuilder: (_, _) =>
                   Divider(color: subColor.withOpacity(0.15), height: 1),
               itemBuilder: (ctx, i) {
                 final entry = history.history[i];
