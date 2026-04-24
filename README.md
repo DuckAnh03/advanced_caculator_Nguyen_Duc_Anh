@@ -75,8 +75,6 @@ Cho các lập trình viên và những người làm việc với số nhị ph
 
 ## Ảnh Chụp Ứng Dụng
 
-> **Ghi chú**: Vui lòng thêm ảnh chụp màn hình cho các tính năng sau:
-
 ### Chế Độ Cơ Bản
 ![Chế độ Cơ Bản](screenshots/basic_mode.png)
 
