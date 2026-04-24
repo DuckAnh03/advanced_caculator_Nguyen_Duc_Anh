@@ -58,19 +58,22 @@ class CalculatorProvider extends ChangeNotifier {
   void appendInput(String value) {
     _clearError();
 
-    // If just evaluated and user types a digit → start fresh
-    if (_justEvaluated && _isDigitOrDot(value)) {
-      _expression = '';
-      _result = '';
+    // Nếu vừa ấn "=" xong:
+    if (_justEvaluated) {
+      if (_isDigitOrDot(value)) {
+        // Nếu nhập số: Xóa sạch làm lại từ đầu (ví dụ: đang có 8, ấn 2 -> ra 2)
+        _expression = value;
+        _result = '';
+      } else if (_isOperator(value)) {
+        // Nếu nhập toán tử: Giữ lại kết quả cũ để tính tiếp (ví dụ: đang có 8, ấn + -> ra 8+)
+        _expression = _result + value;
+      }
+      _justEvaluated = false;
+    } else {
+      // Nếu đang trong quá trình nhập bình thường
+      _expression += value;
     }
-    _justEvaluated = false;
 
-    // If just evaluated and user types an operator → continue from result
-    if (_justEvaluated && _isOperator(value) && _result.isNotEmpty) {
-      _expression = _result;
-    }
-
-    _expression += value;
     notifyListeners();
   }
 
@@ -80,13 +83,21 @@ class CalculatorProvider extends ChangeNotifier {
     _clearError();
 
     try {
+      // 1. Tự động đóng ngoặc nếu thiếu
       final closed = ExpressionParser.autoClose(_expression);
+
+      // 2. Tính toán kết quả
       final res = ExpressionParser.evaluate(
         closed,
         angleMode: _angleMode,
         precision: _settings.decimalPrecision,
       );
+
+      // 3. CẬP NHẬT ĐỂ CHÈN KẾT QUẢ VÀO BIỂU THỨC
+      // Thay vì chỉ hiện kết quả ở dòng dưới, ta đưa nó lên dòng trên
+      // để khi nhấn + 2 tiếp theo nó sẽ hoạt động.
       _result = res;
+      _expression = res; // Đưa kết quả trực tiếp vào expression
       _justEvaluated = true;
     } on CalculatorException catch (e) {
       _error = e.message;
@@ -94,7 +105,6 @@ class CalculatorProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-
   // ─── Clear / Delete ──────────────────────────────────────────────────────
 
   void clearEntry() {
@@ -104,6 +114,9 @@ class CalculatorProvider extends ChangeNotifier {
     _justEvaluated = false;
     notifyListeners();
   }
+
+  /// Clear all display, result, and error (alias for clearEntry)
+  void clearAll() => clearEntry();
 
   void clearLastChar() {
     _clearError();
@@ -222,6 +235,8 @@ class CalculatorProvider extends ChangeNotifier {
     _memory += val;
     _memoryHasValue = _memory != 0.0;
     StorageService.saveMemory(_memory);
+
+    _justEvaluated = true;
     notifyListeners();
   }
 
@@ -231,6 +246,8 @@ class CalculatorProvider extends ChangeNotifier {
     _memory -= val;
     _memoryHasValue = _memory != 0.0;
     StorageService.saveMemory(_memory);
+
+    _justEvaluated = true;
     notifyListeners();
   }
 
